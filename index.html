@@ -951,5 +951,43 @@
     });
   </script>
 
+
+<style>
+/* Hide HubSpot free-plan branding */
+.hubspot-link__container,
+.hubspot-link__container * { display: none !important; }
+
+/* Button override — higher specificity than HubSpot SDK */
+body #hs-form-container .hs-button,
+body #hs-form-container input[type="submit"],
+.hbspt-form .hs-button,
+.hbspt-form input[type="submit"] {
+  background: #f5efe5 !important;
+  background-color: #f5efe5 !important;
+  color: #0a1d38 !important;
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  padding: 16px 40px !important;
+  border: 2px solid #f5efe5 !important;
+  border-radius: 0 !important;
+  width: 100% !important;
+  cursor: pointer !important;
+  margin-top: 10px !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+body #hs-form-container .hs-button:hover,
+body #hs-form-container input[type="submit"]:hover,
+.hbspt-form .hs-button:hover,
+.hbspt-form input[type="submit"]:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #f5efe5 !important;
+  border-color: #f5efe5 !important;
+}
+</style>
 </body>
 </html>
