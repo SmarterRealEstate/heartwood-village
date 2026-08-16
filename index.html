@@ -537,10 +537,22 @@
       font-weight: 300;
     }
 
-    /* HubSpot form overrides */
-    .register .hs-form fieldset {
-      max-width: 100% !important;
-    }
+    /* Custom form */
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,239,229,0.7); margin-bottom: 6px; }
+    .form-group input, .form-group select { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(245,239,229,0.25); border-radius: 2px; color: var(--white); font-family: 'Raleway', sans-serif; font-size: 15px; outline: none; transition: border-color .2s; }
+    .form-group input::placeholder { color: rgba(245,239,229,0.35); }
+    .form-group input:focus, .form-group select:focus { border-color: var(--gold); }
+    .form-group select option { background: var(--navy); color: var(--white); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } }
+    .form-submit { width: 100%; margin-top: 8px; padding: 18px; background: var(--cream); color: var(--navy); border: 2px solid var(--cream); font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: background .2s, color .2s; }
+    .form-submit:hover { background: transparent; color: var(--cream); }
+    .form-submit:disabled { opacity: .6; cursor: not-allowed; }
+    .form-note { margin-top: 12px; font-size: 12px; color: rgba(245,239,229,0.45); text-align: center; }
+    .form-success { display: none; text-align: center; padding: 40px 20px; }
+    .form-success h3 { font-size: 26px; color: var(--white); margin-bottom: 14px; }
+    .form-success p { color: rgba(245,239,229,0.8); font-size: 15px; line-height: 1.7; }
 
     .hs-form .hs-form-field label {
       font-family: 'Raleway', sans-serif !important;
@@ -884,7 +896,21 @@
       <p class="section-label" style="color:var(--gold)">VIP Platinum Registration</p>
       <h2>Get First Access to Heartwood Village</h2>
       <p class="sub">Register now to receive exclusive VIP Platinum pricing, floor plans, and incentives before the public opening. Spots are limited.</p>
-      <div id="hs-form-container"></div>
+           <form id="regForm">
+        <div class="form-row">
+          <div class="form-group"><label for="fn">First Name *</label><input type="text" id="fn" placeholder="Jane" required></div>
+          <div class="form-group"><label for="ln">Last Name *</label><input type="text" id="ln" placeholder="Smith" required></div>
+        </div>
+        <div class="form-group"><label for="ph">Phone Number</label><input type="tel" id="ph" placeholder="(416) 555-0100"></div>
+        <div class="form-group"><label for="em">Email *</label><input type="email" id="em" placeholder="jane@example.com" required></div>
+        <div class="form-group"><label for="rt">Are you a Realtor? *</label><select id="rt" required><option value="" disabled selected>Select one</option><option value="Yes">Yes</option><option value="No">No</option></select></div>
+        <button type="submit" class="form-submit" id="submitBtn">Register for VIP Platinum Access</button>
+        <p class="form-note">By submitting you consent to receive communications about this project. Your information is kept private and will never be shared.</p>
+      </form>
+      <div class="form-success" id="formSuccess">
+        <h3>You're on the VIP List!</h3>
+        <p>We'll be in touch with priority floor plans, pricing, and exclusive incentives reserved for VIP Platinum registrants.</p>
+      </div>
     </div>
   </section>
 
