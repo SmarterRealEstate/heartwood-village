@@ -952,19 +952,6 @@
       },
       onFormSubmit: function($form) {
         fbq('track', 'Lead');
-      },
-      onFormSubmitted: function($form, data) {
-        const formData = {
-          fields: Object.entries(HS_TAGS).map(([name, value]) => ({ name, value })),
-          context: { pageUri: window.location.href, pageName: document.title }
-        };
-        const email = $form ? ($form.find ? ($form.find('[name=email]').val() || '') : '') : '';
-        // Tag submitted contact
-        fetch('https://api.hsforms.com/submissions/v3/integration/submit/' + HS_PORTAL + '/' + HS_FORM, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        }).catch(() => {});
       }
     });
   </script>
