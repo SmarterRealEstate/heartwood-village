@@ -933,51 +933,39 @@
     <p>We do not represent the builder directly. We represent you. Renderings are artist's imagination only. All information, prices, specifications, floor plans, and incentives are subject to change at any time without notice. *Net of HST. Subject to certain qualifications and conditions. E. &amp; O.E.</p>
     <p style="margin-top:10px">Jeffrey Villeneuve | Meta Realty Inc. | <a href="mailto:info@smarterrealestate.ca">info@smarterrealestate.ca</a> | (647) 409-7653</p>
   </footer>
-
-  <!-- HubSpot Forms SDK -->
-  <script src="//js.hsforms.net/forms/embed/v2.js" charset="utf-8"></script>
   <script>
     const HS_PORTAL = '39925421';
     const HS_FORM   = '0eb3214c-eef4-49ee-976b-99e56ae5ca7d';
-    const HS_TAGS = {
-      lifecyclestage: 'lead',
-      contact_tier:   'Tier 6 -Social Media Lead',
-      client_type:    'Preconstruction',
-      project:        'Heartwood Village',
-    };
+    const HS_TAGS = { lifecyclestage:'lead', contact_tier:'Tier 6 -Social Media Lead', client_type:'Preconstruction', project:'Heartwood Village' };
 
-    hbspt.forms.create({
-      region:   'na2',
-      portalId: HS_PORTAL,
-      formId:   HS_FORM,
-      target:   '#hs-form-container',
-      onFormReady: function($form) {
-        try {
-          var iframe = document.querySelector('.hs-form-iframe');
-          if (iframe && iframe.contentDocument) {
-            var s = iframe.contentDocument.createElement('style');
-            var css = '.hs-button,input[type="submit"]{background:#f5efe5!important;background-color:#f5efe5!important;color:#0a1d38!important;font-family:Raleway,sans-serif!important;font-size:12px!important;font-weight:700!important;letter-spacing:2px!important;text-transform:uppercase!important;padding:16px 40px!important;border:2px solid #f5efe5!important;border-radius:0!important;width:100%!important;box-shadow:none!important;cursor:pointer!important;}.hs-button:hover,input[type="submit"]:hover{background:transparent!important;background-color:transparent!important;color:#f5efe5!important;border-color:#f5efe5!important;}.hubspot-link__container,.hubspot-link__container *,.hs-form__virality-link,.hs-form__virality-link *{display:none!important;}.submitted-message{color:#ffffff!important;font-size:16px!important;line-height:1.6!important;}';
-            s.appendChild(iframe.contentDocument.createTextNode(css));
-            iframe.contentDocument.head.appendChild(s);
-              var iframeDoc = iframe && iframe.contentDocument;
-              if (iframeDoc) {
-                var hsForm = iframeDoc.querySelector('form');
-                if (hsForm) {
-                  [['project','Heartwood Village'],['contact_tier','Tier 6 -Social Media Lead'],['client_type','Preconstruction']].forEach(function(p) {
-                    var ex = hsForm.querySelector('input[name="' + p[0] + '"]');
-                    if (ex) { ex.value = p[1]; } else {
-                      var inp = iframeDoc.createElement('input');
-                      inp.type = 'hidden'; inp.name = p[0]; inp.value = p[1];
-                      hsForm.appendChild(inp);
-                    }
-                  });
-                }
-              }
-          }
-        } catch(e) {}
-      },
-      onFormSubmit: function($form) {
-        fbq('track', 'Lead');
+    document.getElementById('regForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = 'Submitting...'; btn.disabled = true;
+      const payload = {
+        fields: [
+          {name:'firstname', value:document.getElementById('fn').value.trim()},
+          {name:'lastname',  value:document.getElementById('ln').value.trim()},
+          {name:'phone',     value:document.getElementById('ph').value.trim()},
+          {name:'email',     value:document.getElementById('em').value.trim()},
+          {name:'are_you_a_realtor_', value:document.getElementById('rt').value},
+          {name:'lifecyclestage', value:HS_TAGS.lifecyclestage},
+          {name:'contact_tier',  value:HS_TAGS.contact_tier},
+          {name:'client_type',   value:HS_TAGS.client_type},
+          {name:'project',       value:HS_TAGS.project},
+        ],
+        context: {pageUri: window.location.href, pageName: document.title}
+      };
+      try {
+        const res = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${HS_PORTAL}/${HS_FORM}`,
+          {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+        if (!res.ok) throw new Error((await res.json()).message || 'Submission failed');
+        if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+        document.getElementById('regForm').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } catch(err) {
+        console.error(err);
+        btn.textContent = 'Something went wrong. Please try again.'; btn.disabled = false;
       }
     });
   </script>
